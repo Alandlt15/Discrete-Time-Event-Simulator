@@ -36,4 +36,4 @@ It takes 2 inputs:
 ## Acknowlegdments
 Special thanks to Dr. Guirguis as this was a cool project for his course Computing Systems Fundamentals (CS3360) @ Texas State University.
 
-October, 2024.
+October 2024.
