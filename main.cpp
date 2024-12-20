@@ -1,3 +1,14 @@
+/*
+	Discrete-Time Event Simulator
+
+	Program simulates a queueing system using an event queue to process new events (arrivals, departures).
+	Utilizes a ready queue to place arriving processes when a process is executing on the cpu.
+	Arrival times and service times are generated at run-time using an average from two inputs.
+
+	Author: Alan De La Torre
+	October 2024
+*/
+
 #include <iostream>
 #include <random>
 #include <numeric>
@@ -35,9 +46,9 @@ public:
 	}
 	~Event() {
 		while (head != nullptr) {
-			EventQueue* lead = head;
-			head = head->next;
-			delete lead;
+			EventQueue* lead = head;  
+			head = head->next;       
+			delete lead;       
 		}
 	}
 	void InsertEvent(string process_type, double time, int p_id) {
@@ -54,7 +65,7 @@ public:
 			head = new_event;
 			return;
 		}
-
+	
 		//If its less than head
 		if (new_event->event_time < lead->event_time) {
 			new_event->next = lead;
@@ -81,8 +92,8 @@ public:
 		if (head == nullptr)
 			return;
 
-		EventQueue* temp = head;
-		head = head->next;
+		EventQueue* temp = head; 
+		head = head->next; 
 		delete temp;
 	}
 	string GetNextEventType() {
@@ -154,7 +165,7 @@ int main() {
 	string event_type;
 	double event_time;
 	int event_id;
-	while (completed_processes < 10000) {
+	while (completed_processes < 10000) {  
 		event_type = manager->GetNextEventType();
 		event_time = manager->GetNextEventTime();
 		event_id = manager->GetNextProcessID();
@@ -173,12 +184,11 @@ int main() {
 	}
 
 	// Calculating final metrics
-	avg_turnaround_time = 1 / (25 - avg_arrival_rate);
-	total_throughput = completed_processes / clock;
-	cpu_utilization = total_service_time / clock;
+	avg_turnaround_time = 1/(25-avg_arrival_rate);
+	total_throughput = completed_processes / clock;  
+	cpu_utilization = total_service_time / clock;  
 	avg_number_of_processes_in_ready_queue = total_ready_queue_time / clock;
 
-	// Display results
 	cout << "Average Turnaround Time for processes: " << avg_turnaround_time << endl;
 	cout << "Total Throughput: " << total_throughput << endl;
 	cout << "CPU Utilization: " << cpu_utilization * 100 << "%" << endl;
@@ -220,7 +230,7 @@ void HandleDeparture(bool& server_idle, Event* manager, vector<Ready>& ready_que
 		ready_queue.erase(ready_queue.begin());
 
 		double service_time = next_process.GetServiceTime();
-		total_service_time += service_time;
+		total_service_time += service_time; 
 		manager->InsertEvent("departure", clock + service_time, next_process.GetProcessID());
 	}
 }
